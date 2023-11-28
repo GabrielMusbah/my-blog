@@ -1,211 +1,122 @@
-import React from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
+'use-client'
 
-const Header: React.FC = () => {
-  const router = useRouter();
-  const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import SchoolIcon from '@mui/icons-material/School';
+import SvgIcon from '@mui/icons-material/Menu';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
-  const {data: session, status} = useSession();
+import WiseIcon from '../static/icon.svg';
 
-  let left = (
-    <div className="left">
-      <Link href="/" legacyBehavior>
-        <a className="bold" data-active={isActive("/")}>
-          Feed
-        </a>
-      </Link>
-      <style jsx>{`
-        .bold {
-          font-weight: bold;
-        }
+const pages = ['Home', 'Novidades', 'Contato'];
 
-        a {
-          text-decoration: none;
-          color: #000;
-          display: inline-block;
-        }
+function Header() {
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
-        .left a[data-active="true"] {
-          color: gray;
-        }
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
 
-        a + a {
-          margin-left: 1rem;
-        }
-      `}</style>
-    </div>
-  );
-
-  let right = null;
-
-  if (status === 'loading') {
-    left = (
-      <div className="left">
-        <Link href="/" legacyBehavior>
-          <a className="bold" data-active={isActive("/")}>
-            Feed
-          </a>
-        </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: #000;
-            display: inline-block;
-          }
-
-          .left a[data-active="true"] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
-      </div>
-    );
-    right = (
-      <div className="right">
-        <p>Validating session ...</p>
-        <style jsx>{`
-          .right {
-            margin-left: auto;
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (!session) {
-    right = (
-      <div className="right">
-        <Link href="/api/auth/signin" legacyBehavior>
-          <a data-active={isActive("/signup")}>Log in</a>
-        </Link>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: #000;
-            display: inline-block;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid black;
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (session) {
-    left = (
-      <div className="left">
-        <Link href="/" legacyBehavior>
-          <a className="bold" data-active={isActive("/")}>
-            Feed
-          </a>
-        </Link>
-        <Link href="/drafts" legacyBehavior>
-          <a data-active={isActive("/drafts")}>My drafts</a>
-        </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: #000;
-            display: inline-block;
-          }
-
-          .left a[data-active="true"] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
-      </div>
-    );
-    right = (
-      <div className="right">
-        <p>
-          {session.user.name} ({session.user.email})
-        </p>
-        <Link href="/create" legacyBehavior>
-          <button>
-            <a>New post</a>
-          </button>
-        </Link>
-        <button onClick={() => signOut()}>
-          <a>Log out</a>
-        </button>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: #000;
-            display: inline-block;
-          }
-
-          p {
-            display: inline-block;
-            font-size: 13px;
-            padding-right: 1rem;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid black;
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-
-          button {
-            border: none;
-          }
-        `}</style>
-      </div>
-    );
-  }
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   return (
-    <nav>
-      {left}
-      {right}
-      <style jsx>{`
-        nav {
-          display: flex;
-          padding: 2rem;
-          align-items: center;
-        }
-      `}</style>
-    </nav>
-  );
-};
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
 
+          <AccountBalanceIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Wise
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+
+          <AccountBalanceIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Wise
+          </Typography>
+
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+}
 export default Header;

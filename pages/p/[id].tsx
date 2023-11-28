@@ -46,7 +46,7 @@ const Post: React.FC<PostProps> = (props) => {
       <div>
         <h2>{props.title}</h2>
 
-        <img src={imgUrl} />
+        {/* <img src={imgUrl} /> */}
 
         <p>
           {props.content}
