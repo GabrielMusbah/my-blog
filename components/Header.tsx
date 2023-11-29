@@ -9,16 +9,9 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import SchoolIcon from '@mui/icons-material/School';
-import SvgIcon from '@mui/icons-material/Menu';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
-import WiseIcon from '../static/icon.svg';
 
 const pages = ['Home', 'Novidades', 'Contato'];
 
@@ -34,7 +27,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 
@@ -57,7 +50,7 @@ function Header() {
             Wise
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', }, justifyContent: 'end' }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -83,7 +76,7 @@ function Header() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', },
               }}
             >
               {pages.map((page) => (
@@ -116,7 +109,7 @@ function Header() {
 
         </Toolbar>
       </Container>
-    </AppBar>
+    </AppBar >
   );
 }
 export default Header;
