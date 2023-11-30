@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import Layout from "../components/Layout";
 import Router from "next/router";
+import { Typography, TextField, Button, Box } from "@mui/material";
 
-const Draft: React.FC = () => {
+export default function Draft() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [image, setImage] = useState("");
+  const [resume, setResume] = useState("");
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      const body = { title, content };
+      const body = { title, content, img: image, resume };
       await fetch(`/api/post`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -23,59 +26,77 @@ const Draft: React.FC = () => {
 
   return (
     <Layout>
-      <div>
+      <div >
         <form onSubmit={submitData}>
-          <h1>New Draft</h1>
-          <input
+          <Typography variant="h6" sx={{ marginTop: '100px', marginBottom: '30px' }}>
+            Criar novo post
+          </Typography>
+
+          {/* Input para o título */}
+          <TextField
+            fullWidth
             autoFocus
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-            type="text"
+            label="Titulo"
+            variant="outlined"
+            margin="normal"
             value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
-          <textarea
-            cols={50}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Content"
+
+          {/* Textarea para o conteúdo */}
+          <TextField
+            fullWidth
+            label="Subtitulo"
+            variant="outlined"
+            margin="normal"
+            value={resume}
+            onChange={(e) => setResume(e.target.value)}
+          />
+          <TextField
+            fullWidth
+            multiline
             rows={8}
+            label="Conteudo"
+            variant="outlined"
+            margin="normal"
             value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
-          <input disabled={!content || !title} type="submit" value="Create" />
-          <a className="back" href="#" onClick={() => Router.push("/")}>
-            or Cancel
-          </a>
+
+          {/* Input para a imagem */}
+          <TextField
+            fullWidth
+            label="Image URL"
+            variant="outlined"
+            margin="normal"
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+          />
+
+          {/* Input para o resumo */}
+
+
+          {/* Botões em linha */}
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', marginBottom: '50px' }}>
+            {/* Botão para criar o post */}
+            <Button
+              disabled={!content || !title || !image || !resume}
+              type="submit"
+              variant="contained"
+              color="primary"
+            >
+              Postar
+            </Button>
+
+            {/* Link para cancelar */}
+            <Typography variant="body2">
+              <a href="#" onClick={() => Router.push("/")}>
+                Cancelar
+              </a>
+            </Typography>
+          </Box>
         </form>
       </div>
-      <style jsx>{`
-        .page {
-          background: white;
-          padding: 3rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        input[type="text"],
-        textarea {
-          width: 100%;
-          padding: 0.5rem;
-          margin: 0.5rem 0;
-          border-radius: 0.25rem;
-          border: 0.125rem solid rgba(0, 0, 0, 0.2);
-        }
-
-        input[type="submit"] {
-          background: #ececec;
-          border: 0;
-          padding: 1rem 2rem;
-        }
-
-        .back {
-          margin-left: 1rem;
-        }
-      `}</style>
     </Layout>
   );
-};
-
-export default Draft;
+}

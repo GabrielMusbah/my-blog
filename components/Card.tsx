@@ -20,15 +20,15 @@ export default function ImgMediaCard({ post }) {
   const cardImg = `../static/img/${post.img}`;
 
   return (
-    <Grid item xs={4}>
-      <Card sx={{ maxWidth: 345 }} onClick={() => Router.push("/p/[id]", `/p/${post.id}`)}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }} onClick={() => Router.push("/p/[id]", `/p/${post.id}`)}>
         <CardMedia
           component="img"
           alt="green iguana"
           height="140"
           image={cardImg}
         />
-        <CardContent>
+        <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="div">
             {post.title}
           </Typography>

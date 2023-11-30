@@ -5,6 +5,7 @@ import Post, { PostProps } from "../components/Post";
 import prisma from '../lib/prisma'
 import ImgMediaCard from "../components/Card";
 import Grid from '@mui/material/Grid';
+import { Typography } from "@mui/material";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.post.findMany({
@@ -25,9 +26,11 @@ const Blog: React.FC<Props> = (props) => {
   return (
     <Layout>
       <div className="page">
-        <h1>Novidades</h1>
+        <Typography variant="h6" sx={{ marginTop: '100px', marginBottom: '50px' }}>
+          Fique por dentro das novidades!!!
+        </Typography>
         <main>
-          <Grid container spacing={2} className="post">
+          <Grid container spacing={5} className="post">
             {props.feed.map((post) => (
               <ImgMediaCard key={post.id} post={post} />
             ))}
