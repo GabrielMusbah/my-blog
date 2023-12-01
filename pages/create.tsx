@@ -60,7 +60,7 @@ export default function Draft() {
     // Você pode enviar o base64 para o seu servidor aqui
     await fetch("/api/post", {
       method: "POST",
-      body: JSON.stringify({ title, content, img: base64, resume }),
+      body: JSON.stringify({ title, subtitle: subTitle, content, img: base64, resume }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -83,6 +83,8 @@ export default function Draft() {
             Criar novo post
           </Typography>
 
+
+
           <TextField
             fullWidth
             autoFocus
@@ -95,11 +97,21 @@ export default function Draft() {
 
           <TextField
             fullWidth
-            label="Resumo"
+            label="Resumo (subtitulo do card)"
             variant="outlined"
             margin="normal"
             value={resume}
             onChange={(e) => setResume(e.target.value)}
+          />
+
+
+          <TextField
+            fullWidth
+            label="Subtitulo"
+            variant="outlined"
+            margin="normal"
+            value={subTitle}
+            onChange={(e) => setSubTitle(e.target.value)}
           />
 
           <TextField

@@ -53,7 +53,7 @@ const Post: React.FC<PostProps> = (props) => {
     <Layout>
       <div className="post-container">
         <h2>{props.title}</h2>
-        <h3>{props.resume}</h3>
+        <h3>{props.subtitle}</h3>
         <p>{props.author.name} data: {props.date}</p>
         <img src={imgUrl} alt={props.title} className="post-image" />
         <p>{props.content}</p>
