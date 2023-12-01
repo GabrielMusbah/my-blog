@@ -41,11 +41,25 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       resume,
       published: true,
       authorId: 1,
-      date: new Date()
+      date: formatarDataParaString(new Date())
     },
   });
 
   console.log(result)
 
   res.json(result);
+}
+
+function formatarDataParaString(currentDate: Date) {
+  // Obtém o dia, mês e ano
+  const day = currentDate.getDate();
+  const month = currentDate.getMonth() + 1; // Adiciona 1 porque os meses são indexados de 0 a 11
+  const year = currentDate.getFullYear();
+
+  // Formata os valores para garantir que tenham dois dígitos
+  const formattedDay = day < 10 ? `0${day}` : day;
+  const formattedMonth = month < 10 ? `0${month}` : month;
+
+  // Retorna a string no formato "dd/mm/yyyy"
+  return `${formattedDay}/${formattedMonth}/${year}`;
 }

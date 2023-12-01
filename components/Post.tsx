@@ -9,6 +9,10 @@ export type PostProps = {
   img?: string;
   resume?: string;
   published: boolean;
+  date: string;
+  author: {
+    name: string;
+  }
 };
 
 const Post: React.FC<{ post: PostProps }> = ({ post }) => {

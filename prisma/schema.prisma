@@ -8,15 +8,15 @@ datasource db {
 }
 
 model Post {
-  id        Int       @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   title     String
   content   String?
   img       String?
   resume    String?
-  published Boolean   @default(false)
-  author    User?     @relation(fields: [authorId], references: [id])
+  published Boolean @default(false)
+  author    User?   @relation(fields: [authorId], references: [id])
   authorId  Int?
-  date      DateTime?
+  date      String?
 }
 
 model User {
