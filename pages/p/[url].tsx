@@ -11,9 +11,20 @@ import { User, CalendarBlank } from "@phosphor-icons/react";
 
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  let url = '';
+
+  if (params.url) {
+    if (typeof params.url === 'string') {
+      // Se params.url é uma string única
+      url = params.url;
+    } else {
+      // Se params.url é uma string[]
+      url = params.url.join('');
+    }
+  }
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(params?.id) || -1,
+      url: url,
     },
     include: {
       author: true
@@ -40,6 +51,15 @@ async function deletePost(id: number): Promise<void> {
   await Router.push("/")
 }
 
+const ContentComponent = ({ content }) => {
+  if (!content) return null;
+
+  const paragraphs = content.split('\n\n').map((paragraph, index) => (
+    <p key={index}>{paragraph}</p>
+  ));
+
+  return <div>{paragraphs}</div>;
+};
 
 const Post: React.FC<PostProps> = (props) => {
   const { status } = useSession();
@@ -58,7 +78,7 @@ const Post: React.FC<PostProps> = (props) => {
         <h3>{props.subtitle}</h3>
         <p className="pAuthor" > <span> <User size={16} color="#164e63" weight="bold" /> {props.author.name} </span>   | <CalendarBlank size={16} color="#164e63" weight="bold" /> {props.date}</p>
         <img src={imgUrl} alt={props.title} className="post-image" />
-        <p>{props.content}</p>
+        <ContentComponent content={props.content} />
       </div>
 
 

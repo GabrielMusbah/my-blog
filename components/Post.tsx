@@ -10,6 +10,7 @@ export type PostProps = {
   resume?: string;
   published: boolean;
   date: string;
+  url: string;
   subtitle: string;
   author: {
     name: string;
