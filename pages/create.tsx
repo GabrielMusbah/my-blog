@@ -51,11 +51,13 @@ export default function Draft() {
   };
 
   const submitData = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
 
     if (!file) {
       return;
     }
+    console.log("teste")
 
     // Você pode enviar o base64 para o seu servidor aqui
     await fetch("/api/post", {

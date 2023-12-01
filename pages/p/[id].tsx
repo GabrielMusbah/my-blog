@@ -6,6 +6,8 @@ import Router from "next/router";
 import { PostProps } from "../../components/Post";
 import prisma from '../../lib/prisma'
 import { useSession } from "next-auth/react";
+import { User, CalendarBlank } from "@phosphor-icons/react";
+
 
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -54,7 +56,7 @@ const Post: React.FC<PostProps> = (props) => {
       <div className="post-container">
         <h2>{props.title}</h2>
         <h3>{props.subtitle}</h3>
-        <p>{props.author.name} data: {props.date}</p>
+        <p className="pAuthor" > <span> <User size={16} color="#164e63" weight="bold" /> {props.author.name} </span>   | <CalendarBlank size={16} color="#164e63" weight="bold" /> {props.date}</p>
         <img src={imgUrl} alt={props.title} className="post-image" />
         <p>{props.content}</p>
       </div>
@@ -66,6 +68,18 @@ const Post: React.FC<PostProps> = (props) => {
           margin: 0 auto;
           padding: 20px;
           margin-top: 80px;
+        }
+
+        .pAuthor {
+          color: #0891b2;
+          font-size: 15px;
+          font
+        }
+
+        .pAuthor span {
+          color: #0891b2;
+          font-weight: 600;
+
         }
 
 
