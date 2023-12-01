@@ -15,3 +15,9 @@ model Post {
   resume    String?
   published Boolean @default(false)
 }
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String @unique()
+  password String
+}

@@ -22,7 +22,7 @@ type Props = {
   feed: PostProps[];
 };
 
-const Blog: React.FC<Props> = (props) => {
+export default function index(props: Props) {
   return (
     <Layout>
       <div className="page">
@@ -54,5 +54,3 @@ const Blog: React.FC<Props> = (props) => {
     </Layout>
   );
 };
-
-export default Blog;

@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import Router from "next/router";
 
 const pages = ['Home', 'Novidades', 'Contato'];
 
@@ -29,7 +30,7 @@ export default function Header() {
         <Toolbar disableGutters>
 
           {/* Logo on the left for both mobile and desktop */}
-          <AccountBalanceIcon sx={{ display: 'flex', mr: 1 }} />
+          <AccountBalanceIcon sx={{ display: 'flex', mr: 1 }} onClick={() => Router.push("/")} />
 
           {/* Logo and title */}
           <Typography
@@ -45,6 +46,7 @@ export default function Header() {
               color: 'inherit',
               textDecoration: 'none',
             }}
+            onClick={() => Router.push("/")}
           >
             Wise
           </Typography>

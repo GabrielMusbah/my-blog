@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles';
 import { Typography, TextField, Button, Box } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import router from "next/router";
+import InputFileUpload from "../components/uploadFile";
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -76,11 +77,11 @@ export default function Draft() {
     <Layout>
       <div >
         <form onSubmit={submitData}>
+
           <Typography variant="h6" sx={{ marginTop: '100px', marginBottom: '30px' }}>
             Criar novo post
           </Typography>
 
-          {/* Input para o título */}
           <TextField
             fullWidth
             autoFocus
@@ -91,7 +92,6 @@ export default function Draft() {
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          {/* Textarea para o conteúdo */}
           <TextField
             fullWidth
             label="Resumo"
@@ -100,6 +100,7 @@ export default function Draft() {
             value={resume}
             onChange={(e) => setResume(e.target.value)}
           />
+
           <TextField
             fullWidth
             multiline
@@ -111,19 +112,10 @@ export default function Draft() {
             onChange={(e) => setContent(e.target.value)}
           />
 
-          {/* Input para a imagem */}
+          <InputFileUpload image={image} onFileChange={onFileChange} />
 
-          <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-            Upload file
-            <VisuallyHiddenInput type="file" value={image} onChange={onFileChange} />
-          </Button>
-
-          {/* Input para o resumo */}
-
-
-          {/* Botões em linha */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', marginBottom: '50px' }}>
-            {/* Botão para criar o post */}
+
             <Button
               disabled={!content || !title || !resume}
               type="submit"
@@ -133,7 +125,6 @@ export default function Draft() {
               Postar
             </Button>
 
-            {/* Link para cancelar */}
             <Button
               variant="contained"
               color="error"
@@ -142,6 +133,7 @@ export default function Draft() {
               Cancelar
             </Button>
           </Box>
+
         </form>
       </div>
     </Layout>
