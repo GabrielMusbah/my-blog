@@ -8,7 +8,7 @@ import * as path from 'path';
 // Required fields in body: title
 // Optional fields in body: content
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { title, content, img, resume } = req.body;
+  const { title, subtitle, content, img, resume } = req.body;
 
   // Extrair o tipo da imagem e os dados base64
   const matches: RegExpMatchArray | null = img.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
@@ -36,6 +36,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   const result = await prisma.post.create({
     data: {
       title,
+      subtitle,
       content,
       img: fileName,
       resume,

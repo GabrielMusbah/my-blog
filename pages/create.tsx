@@ -21,6 +21,7 @@ const VisuallyHiddenInput = styled('input')({
 
 export default function Draft() {
   const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
