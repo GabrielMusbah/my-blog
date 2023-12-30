@@ -6,6 +6,7 @@ import { Typography, TextField, Button, Box } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import router from "next/router";
 import InputFileUpload from "../components/uploadFile";
+import Modal from '@mui/material/Modal';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -26,6 +27,12 @@ export default function Draft() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   const [resume, setResume] = useState("");
+  const [url, setUrl] = useState("");
+  const [link, setLink] = useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [file, setFile] = useState<File | null>(null);
   const [base64, setBase64] = useState<string | null>(null);
@@ -62,7 +69,7 @@ export default function Draft() {
     // Você pode enviar o base64 para o seu servidor aqui
     await fetch("/api/post", {
       method: "POST",
-      body: JSON.stringify({ title, subtitle: subTitle, content, img: base64, resume }),
+      body: JSON.stringify({ title, subtitle: subTitle, content, img: base64, resume, url }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -76,6 +83,34 @@ export default function Draft() {
     await router.push("/");
   };
 
+  const generatePost = async () => {
+    // Você pode enviar o base64 para o seu servidor aqui
+    const result = await fetch("http://localhost:3001/post", {
+      method: "POST",
+      body: JSON.stringify({ url: link }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (result.ok) {
+      // Aguarde a conversão da resposta JSON
+      const responseData = await result.json();
+
+      console.log(responseData)
+
+      setTitle(responseData.titulo)
+      setSubTitle(responseData.subtitulo)
+      setResume(responseData.resumo)
+      setUrl(responseData.url)
+      setContent(responseData.conteudo)
+
+      handleClose()
+    } else {
+      handleClose()
+    }
+  }
+
   return (
     <Layout>
       <div >
@@ -84,8 +119,6 @@ export default function Draft() {
           <Typography variant="h6" sx={{ marginTop: '100px', marginBottom: '30px' }}>
             Criar novo post
           </Typography>
-
-
 
           <TextField
             fullWidth
@@ -99,6 +132,15 @@ export default function Draft() {
 
           <TextField
             fullWidth
+            label="Subtitulo"
+            variant="outlined"
+            margin="normal"
+            value={subTitle}
+            onChange={(e) => setSubTitle(e.target.value)}
+          />
+
+          <TextField
+            fullWidth
             label="Resumo (subtitulo do card)"
             variant="outlined"
             margin="normal"
@@ -106,14 +148,13 @@ export default function Draft() {
             onChange={(e) => setResume(e.target.value)}
           />
 
-
           <TextField
             fullWidth
-            label="Subtitulo"
+            label="Url"
             variant="outlined"
             margin="normal"
-            value={subTitle}
-            onChange={(e) => setSubTitle(e.target.value)}
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
 
           <TextField
@@ -127,7 +168,15 @@ export default function Draft() {
             onChange={(e) => setContent(e.target.value)}
           />
 
-          <InputFileUpload image={image} onFileChange={onFileChange} />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', marginBottom: '20px' }}>
+
+            <InputFileUpload image={image} onFileChange={onFileChange} />
+
+            <Button component="label" variant="contained" onClick={handleOpen} startIcon={<CloudUploadIcon />}>
+              Use Chat
+            </Button>
+          </Box>
+
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', marginBottom: '50px' }}>
 
@@ -150,7 +199,53 @@ export default function Draft() {
           </Box>
 
         </form>
+
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Qual o link do Post?
+            </Typography>
+
+            <TextField
+              fullWidth
+              multiline
+              rows={8}
+              label="Link"
+              variant="outlined"
+              margin="normal"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+            />
+
+            <Button
+              disabled={!link}
+              type="button"
+              variant="contained"
+              color="primary"
+              onClick={generatePost}
+            >
+              Gerar
+            </Button>
+          </Box>
+        </Modal>
       </div>
     </Layout>
   );
 }
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
